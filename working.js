@@ -1,26 +1,73 @@
-let Gamename = document.getElementById('Gamename')
-let restart = document.getElementById('restart')
-let boxes = Array.from(documents.getElementByClassname('box'))
+const boxes = document.querySelectorAll('.box')
+const restart = document.querySelector('.restart')
+let available_moves = [0,1,2,3,4,5,6,7,8]
 
-const O_Text ="O"
-const X_Text ="X"
+let X_moves=[]
+let O_moves=[]
 
-let currentplayer = X_Text
-let spaces = Array(9).fill(null)
+const winning_Code=[
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [0,4,8],
+    [2,4,6]
+]
 
-const begingame = () =>{
-    boxes.forEach(box => box.addEventListener('click',boxClicked))
-}
+boxes.forEach(box=>{box.addEventListener('click',boxclicked)})
+restart.addEventListener('click',restartit)
 
-function boxClicked(a){
-    const id = a.target.id
 
-    if(!spaces[id]){
-        spaces[id] = currentplayer
-        a.target.innerText = currentplayer
-        if(Gam)
-        currentplayer = currentplayer == X_Text ? O_Text : X_Text
+function boxclicked(e){
+    let user_move = Number(e.target.id)
+    if(available_moves.includes(user_move) && available_moves.length>0){
+        e.target.innerHTML="X"
+        X_moves.push(user_move)
+        available_moves.splice(available_moves.indexOf(user_move),1)
+        if(available_moves.length === 0){
+            console.log("Draw Match!")
+            return
+        }
+        if(winnerexists(X_moves)){
+            console.log("User Won!")
+            setTimeout(restartit,2000)
+            return
+        }
+
+        let pc_moves=available_moves[Math.floor(Math.random()*available_moves.length)]
+        boxes[pc_moves].innerHTML="O"
+        O_moves.push(pc_moves)
+        available_moves.splice(available_moves.indexOf(pc_moves),1)
+
+        if(winnerexists(O_moves)){
+            console.log("PC Won!")
+            setTimeout(restartit,2000)
+            return
+        }
     }
+
 }
 
-begingame()
+function winnerexists(moves){
+        let counter=0
+        for(let i=0;i<8;i++){
+            for(let j =0;j<3;j++){
+                if(moves.includes(winning_Code[i][j]))
+                counter++;
+            }
+            if(counter === 3)
+            return true
+            counter = 0
+        }
+        return false
+}
+
+function restartit(){
+    boxes.forEach(box =>{box.innerHTML=""})
+    available_moves = [0,1,2,3,4,5,6,7,8]
+    X_moves=[]
+    O_moves=[]
+}
+
