@@ -4,16 +4,17 @@
     box-sizing: border-box;
 }
 :root{
-    --chart: rgb(17, 238, 5);
+    --green: rgb(17, 238, 5);
     --win-blocks: rgb(120, 220, 20);
 }
 body{
-    color: var(--chart);
+    color: var(--green);
     font-family:'Courier New', Courier, monospace;
+    
 }
 
 h1{
-    font-size: 55px;
+    font-size: 54px;
     text-transform: uppercase;
     margin-bottom: 50px;
 }
@@ -42,7 +43,7 @@ h1{
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--chart);
+    color: var(--green);
     font-size: 120px;
     border-radius: 2px solid;
     border-bottom: 2px solid;
@@ -50,6 +51,7 @@ h1{
 }
 .box:nth-child(3n){
     border-right: none;
+    
 }
 .box:nth-child(6) ~ .box{
     border-bottom: none;
