@@ -26,7 +26,7 @@ h1{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-image:url(/tac.png);
+    background-image:url(tac.png);
     background-size: cover;
 }
 
@@ -58,7 +58,7 @@ h1{
 }
 
 
-button{
+button.restart{
     padding: 8px 15px;
     border-radius: 20px;
     background-color:gold;
@@ -69,7 +69,8 @@ button{
     transition: 200ms transform;
     margin-top: 75px;
 }
-button:hover{
+
+button.restart:hover{
     cursor: pointer;
     transform: translate(-2px);
 }

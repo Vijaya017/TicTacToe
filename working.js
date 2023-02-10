@@ -26,13 +26,15 @@ function boxclicked(e){
         e.target.innerHTML="X"
         X_moves.push(user_move)
         available_moves.splice(available_moves.indexOf(user_move),1)
-        if(available_moves.length === 0){
-            console.log("Draw Match!")
-            return
-        }
+        
         if(winnerexists(X_moves)){
             console.log("User Won!")
             setTimeout(restartit,2000)
+            return
+        }
+
+        if(available_moves.length === 0){
+            console.log("Draw Match!")
             return
         }
 
