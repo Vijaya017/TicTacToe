@@ -57,6 +57,11 @@ h1{
     border-bottom: none;
 }
 
+.box.animated{
+    transition: all 1s ease-in-out 0.1s;
+    font-size: 150px;
+    
+}
 
 button.restart{
     padding: 8px 15px;
@@ -74,3 +79,7 @@ button.restart:hover{
     cursor: pointer;
     transform: translate(-2px);
 }
+
+
+
+

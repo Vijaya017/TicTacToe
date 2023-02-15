@@ -28,13 +28,13 @@ function boxclicked(e){
         available_moves.splice(available_moves.indexOf(user_move),1)
         
         if(winnerexists(X_moves)){
-            console.log("User Won!")
+            alert("User Won!")
             setTimeout(restartit,2000)
             return
         }
 
         if(available_moves.length === 0){
-            console.log("Draw Match!")
+            alert("Draw Match!")
             return
         }
 
@@ -44,7 +44,7 @@ function boxclicked(e){
         available_moves.splice(available_moves.indexOf(pc_moves),1)
 
         if(winnerexists(O_moves)){
-            console.log("PC Won!")
+            alert("Computer Won!")
             setTimeout(restartit,2000)
             return
         }
