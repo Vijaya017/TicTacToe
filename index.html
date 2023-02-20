@@ -4,28 +4,48 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/b0e33c5fc7.js" crossorigin="anonymous"></script>
     <title>Game- TIC-TAC-TOE</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1 id="playerText">Tic-Tac-Toe</h1>
-        <div id="gameboard">
-            <div class="box" id="0"></div>
-            <div class="box" id="1"></div>
-            <div class="box" id="2"></div>
-            <div class="box" id="3"></div>
-            <div class="box" id="4"></div>
-            <div class="box" id="5"></div>
-            <div class="box" id="6"></div>
-            <div class="box" id="7"></div>
-            <div class="box" id="8"></div>
+
+<div class="container">
+    <h1 id="playerText">Tic-Tac-Toe</h1>
+    <div class="count">Round</div>
+        <div class="message" id="intro">
+            <div class="close"><i class="fa-regular fa-circle-xmark"></i></div>
+            <p>Hyy Player!!!<br>
+                Welcome to  <u>Tic-Tac-Toe</u> Game Zone. Here You can choose your level of difficulty.<br> 
+                Each Game consists of <u>five rounds</u>. You have to score more than me to win this Game.<br>
+                All the best!
+            </p>
         </div>
 
-        <button class="restart">Restart</button>
+        <div class="modeselect">
+            <u>SELECT MODE</u>
+            <div class="select" id="easy"><b>Easy</b></div>
+            <div class="select" id="hard"><b>Hard</b></div>
+        </div>
+    <div id="gameboard">
+        <div class="box" id="0"></div>
+        <div class="box" id="1"></div>
+        <div class="box" id="2"></div>
+        <div class="box" id="3"></div>
+        <div class="box" id="4"></div>
+        <div class="box" id="5"></div>
+        <div class="box" id="6"></div>
+        <div class="box" id="7"></div>
+        <div class="box" id="8"></div>
     </div>
-    
+    <button class="restart">Refresh</button>
+    <div class="message" id="gameover">
+        <div class="text"></div>
+        <div class="select" id="round"> Next Round</div>
+        <div class="select" id="newG">New Game</div>
+    </div>
+</div>
+
 </body>
 <script src="working.js"></script>
 </html>
-
