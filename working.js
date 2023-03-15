@@ -8,6 +8,7 @@ const next = document.querySelector("#round")
 const count=document.querySelector(".count")
 const newG = document.querySelector('#newG')
 
+
 let available_moves = [0,1,2,3,4,5,6,7,8]
 let X_moves=[]
 let O_moves=[]
@@ -15,6 +16,8 @@ let winning_boxes = []
 let difficulty = 0
 let round = 1
 let timer
+let cpupoint=0
+let playerpoint=0
 
 const winning_Code = [
     [0, 1, 2],
@@ -36,6 +39,8 @@ newG.addEventListener('click', newgame)
 function startGame(){
     document.querySelector('#intro').style.display = 'none'
     count.style.display="flex"
+    cpupoint=0
+    playerpoint=0
     startRound()
 }
 
@@ -55,6 +60,7 @@ function boxclicked(e){
         available_moves.splice(available_moves.indexOf(user_move), 1)
 
         if(winnerexists(X_moves)){
+            playerpoint++
             endAnimation("You won!")
             return
         }
@@ -70,6 +76,7 @@ function boxclicked(e){
         available_moves.splice(available_moves.indexOf(pc_moves),1)
 
         if(winnerexists(O_moves)){
+            cpupoint++
             endAnimation("I won!")
             return
         }
@@ -109,7 +116,10 @@ function endAnimation(text){
         gameover.style.display = 'grid'
         gameover.firstElementChild.textContent = text
     }, 3000)
-    if(round > 3){
+    if(round > 5){
+        //adding...part...
+        
+        newG.innerHTML='Play Again'
         next.style.display = 'none'
     }
 //    setTimeout(restartit, 5000)
@@ -128,6 +138,7 @@ function restartit(){
     X_moves = []
     O_moves = []
     winning_boxes = []
+    newG.innerHTML='New Game'
 }
 function newgame(){
     restartit()
