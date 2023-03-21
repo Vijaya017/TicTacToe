@@ -1,24 +1,12 @@
 const boxes = document.querySelectorAll('.box')
-const restart = document.querySelector('.restart')
+const modemsg =  document.querySelector('#mode')
+//const restart = document.querySelector('.restart')
 const gameover = document.querySelector('#gameover')
-const easy = document.querySelector('#easy')
-const hard = document.querySelector('#hard')
-const close =document.querySelector(".close")
+const close = document.querySelector(".close")
 const next = document.querySelector("#round")
-const count=document.querySelector(".count")
+const count = document.querySelector(".count")
 const newG = document.querySelector('#newG')
-
-
-let available_moves = [0,1,2,3,4,5,6,7,8]
-let X_moves=[]
-let O_moves=[]
-let winning_boxes = []
-let difficulty = 0
-let round = 1
-let timer
-let cpupoint=0
-let playerpoint=0
-
+const container = document.querySelector('.container')
 const winning_Code = [
     [0, 1, 2],
     [3, 4, 5],
@@ -29,12 +17,25 @@ const winning_Code = [
     [0, 4, 8],
     [2, 4, 6]
 ]
+const modes = [document.querySelector('#easy'),
+               document.querySelector('#medium'),
+               document.querySelector('#hard')]
 
-easy.addEventListener('click', modeselect)
-hard.addEventListener('click', modeselect)
+let available_moves = [0,1,2,3,4,5,6,7,8]
+let X_moves=[]
+let O_moves=[]
+let winning_boxes = []
+let currentmode = 0
+let round = 1
+let timer
+let cpupoint
+let playerpoint
+
 close.addEventListener('click', startGame)
 next.addEventListener('click', startRound)
 newG.addEventListener('click', newgame)
+modes.forEach(mode => {mode.addEventListener('click', modeselect)})
+modes[0].style.backgroundColor = 'black'
 
 function startGame(){
     document.querySelector('#intro').style.display = 'none'
@@ -47,10 +48,9 @@ function startGame(){
 function startRound(){
     restartit()
     boxes.forEach(box=>{box.addEventListener('click', boxclicked)})
-    restart.addEventListener('click', restartit)
-    count.innerHTML='Round '+round 
+//    restart.addEventListener('click', restartit)
+    count.innerHTML='Round '+round
 }
-//console.log(boxes)
 
 function boxclicked(e){
     let user_move = Number(e.target.id)
@@ -70,7 +70,7 @@ function boxclicked(e){
             return
         }
 
-        let pc_moves=available_moves[Math.floor(Math.random()*available_moves.length)]
+        let pc_moves = pcmoveselector()
         boxes[pc_moves].innerHTML="O"
         O_moves.push(pc_moves)
         available_moves.splice(available_moves.indexOf(pc_moves),1)
@@ -115,20 +115,23 @@ function endAnimation(text){
     timer = setTimeout(function(){
         gameover.style.display = 'grid'
         gameover.firstElementChild.textContent = text
-    }, 3000)
-    if(round > 5){
-        //adding...part...
-        
+    }, 2500)
+    if(round > 3){
         newG.innerHTML='Play Again'
         next.style.display = 'none'
+        if(cpupoint > playerpoint){
+            console.log("I won the game!")
+        } else if(playerpoint > cpupoint){
+            console.log("You won the game!")
+        } else {
+            console.log("It's a tie")
+        }
     }
-//    setTimeout(restartit, 5000)
 }
 
 function restartit(){
     boxes.forEach(box =>{
         box.innerHTML = ""
-        box.classList.remove('fadeOut')
         box.classList.remove('popOut')
         box.addEventListener('click', boxclicked)
     })
@@ -147,6 +150,124 @@ function newgame(){
     startGame()
 }
 
-function modeselect(){
+function modeselect(mode){
+    newgame()
+    mode = mode.target
+    modemsg.style.display='flex'
+    modemsg.innerText="Mode Changed to "+mode.innerText
+    setTimeout(function(){modemsg.style.display='none'},1300)
+    // reverting the previous mode button to old state
+    modes[currentmode].style.backgroundColor = null
+    if (mode.innerText === "Easy"){
+        currentmode = 0
+        container.style.backgroundImage = 'linear-gradient(rgb(2, 129, 180),grey)'
+    } else if (mode.innerText === "Medium"){
+        currentmode = 1
+        container.style.backgroundImage = 'linear-gradient(rgb(110, 18, 196),gray)'
+    } else if (mode.innerText === "Hard"){
+        currentmode = 2
+        container.style.backgroundImage = 'linear-gradient( rgb(196, 18, 18),gray)'
+    }   
+    // highlighting button of the now current mode
+    modes[currentmode].style.backgroundColor = 'black'
+}
 
+function pcmoveselector(){
+    if(currentmode === 0){
+        return easymove()
+    }
+    if(currentmode === 1){
+        return mediummove()
+    }
+    if(currentmode === 2){
+        return hardmove()
+    }
+}
+
+function easymove(){
+    return available_moves[Math.floor(Math.random() * available_moves.length)]
+}
+
+function mediummove(){
+    let bestScore = -Infinity
+    let bestMove
+    let n = available_moves.length
+    for(let i = 0; i < n; i++){
+       let move = available_moves[i]
+       O_moves.push(move)
+       available_moves.splice(available_moves.indexOf(move), 1)
+       let score = minimax(0, false, true)
+       O_moves.splice(O_moves.indexOf(move), 1)
+       available_moves.splice(i, 0, move)
+       if(score > bestScore){
+           bestScore = score
+           bestMove = move
+       }
+    }
+    return bestMove
+}
+
+function hardmove(){
+    let bestScore = -Infinity
+    let bestMove
+    let n = available_moves.length
+    for(let i = 0; i < n; i++){
+       let move = available_moves[i]
+       O_moves.push(move)
+       available_moves.splice(available_moves.indexOf(move), 1)
+       let score = minimax(0, false, false)
+       O_moves.splice(O_moves.indexOf(move), 1)
+       available_moves.splice(i, 0, move)
+       if(score > bestScore){
+           bestScore = score
+           bestMove = move
+       }
+    }
+    return bestMove
+}
+
+function minimax(depth, isMaximizing, isMedium){
+    if(isMedium && depth > 2){
+        return 0
+    }
+
+    if(winnerexists(O_moves)){
+        return 1
+    } else if(winnerexists(X_moves)){
+        return -1
+    } else if(available_moves.length === 0){
+        return 0
+    }
+
+    if(isMaximizing){
+        let bestScore = -Infinity
+        let n = available_moves.length
+        for(let i = 0; i < n; i++){
+            let move = available_moves[i]
+            O_moves.push(move)
+            available_moves.splice(available_moves.indexOf(move), 1)
+            let score = minimax(depth + 1, false, isMedium)
+            available_moves.splice(i, 0, move)
+            O_moves.splice(O_moves.indexOf(move), 1)
+            if(score > bestScore){
+                bestScore = score
+            }
+        }
+        return bestScore
+    } else {
+        let bestScore = Infinity
+        let n = available_moves.length
+        for(let i = 0; i < n; i++){
+            let move = available_moves[i]
+            X_moves.push(move)
+            available_moves.splice(available_moves.indexOf(move), 1)
+            let score = minimax(depth + 1, true, isMedium)
+            available_moves.splice(i, 0, move)
+            X_moves.splice(X_moves.indexOf(move), 1)
+            if(score < bestScore){
+                bestScore = score
+            }
+        }
+        return bestScore
+    }
 }
