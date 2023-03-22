@@ -16,7 +16,9 @@ body{
 h1{
     font-size: 54px;
     text-transform: uppercase;
-    margin-bottom: 50px;
+    position:absolute;
+    top:25px;
+
 }
 .count{
     display: none;
@@ -25,8 +27,8 @@ h1{
     font-size: x-large;
     text-decoration:underline;
     color: yellow;
-    
-    
+    position:absolute;
+    top:95px;
 }
 .container{
     padding: 40px;
@@ -59,6 +61,8 @@ h1{
     border-radius: 2px solid;
     border-bottom: 2px solid;
     border-right: 2px solid;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:100px;
 }
 
 .box:nth-child(3n){
@@ -141,6 +145,8 @@ button.restart{
     background-color: rgb(0, 44, 58);
     text-align: center;
     box-shadow: 2px 2px 2px rgb(216, 231, 12); 
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
 
 
 }
@@ -172,4 +178,31 @@ button.restart{
     padding: 5px 5px;
     border-radius: 5px;
     margin-bottom: 40px;
+    position: absolute;
 }
+.score{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    font-size: 15px;
+    border: rgb(38, 41, 43) solid;
+    position: absolute;
+    top: 5vh;
+    right: 18vh;
+    color: white;
+    padding: 5px 20px ;
+    border-radius: 4px;
+    background-color: rgb(0, 44, 58);
+    text-align: center;
+    box-shadow: 2px 2px 2px rgb(216, 231, 12); 
+    
+}
+.score .ai{
+    padding-bottom:10px;
+}
+/* .score .user{
+    position: absolute;
+    left: 260px;
+    border: 2px solid white;
+    border-radius: 4px;
+    padding:2px;
+}  */
