@@ -6,6 +6,8 @@ const close = document.querySelector(".close")
 const next = document.querySelector("#round")
 const count = document.querySelector(".count")
 const newG = document.querySelector('#newG')
+const ai_score = document.querySelector('.ai')
+const user_score = document.querySelector('.user')
 const container = document.querySelector('.container')
 const winning_Code = [
     [0, 1, 2],
@@ -34,10 +36,10 @@ let playerpoint
 close.addEventListener('click', startGame)
 next.addEventListener('click', startRound)
 newG.addEventListener('click', newgame)
-modes.forEach(mode => {mode.addEventListener('click', modeselect)})
 modes[0].style.backgroundColor = 'black'
 
 function startGame(){
+    modes.forEach(mode => {mode.addEventListener('click', modeselect)})
     document.querySelector('#intro').style.display = 'none'
     count.style.display="flex"
     cpupoint=0
@@ -111,8 +113,10 @@ function endAnimation(text){
             box.classList.add('popOut')
         }
     }
-
+    ai_score.innerHTML = '<br>O - '+ String(cpupoint)
+    user_score.innerHTML = '<br>X - '+ String(playerpoint)
     timer = setTimeout(function(){
+
         gameover.style.display = 'grid'
         gameover.firstElementChild.textContent = text
     }, 2500)
@@ -123,6 +127,7 @@ function endAnimation(text){
             console.log("I won the game!")
         } else if(playerpoint > cpupoint){
             console.log("You won the game!")
+            confetti.start()
         } else {
             console.log("It's a tie")
         }
@@ -147,7 +152,11 @@ function newgame(){
     restartit()
     next.style.display = 'flex'
     round = 1
+    ai_score.innerHTML = '<br>O - '
+    user_score.innerHTML = '<br>X - '
+    confetti.stop()
     startGame()
+    
 }
 
 function modeselect(mode){
